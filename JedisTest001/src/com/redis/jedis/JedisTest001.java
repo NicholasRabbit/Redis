@@ -7,7 +7,8 @@ import java.util.Set;
 
 /**
  * 使用Jedis初步连接redis库
- * Jedis中的常用方法名和redis的常用命令大多都一致
+ * (1)Jedis中的常用方法名和redis的常用命令大多都一致
+ * (2)如果从MySQL中向Redis存高频使用的数据，少量的话使用Jedis类，大量数据就需要运维或DBA写脚本执行了；
  * */
 public class JedisTest001 {
 
