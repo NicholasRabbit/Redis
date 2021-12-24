@@ -41,7 +41,34 @@ public class JedisTest002 {
         jedis.setrange("k5", 0, "xyz");
         System.out.println("setrange  k5===> " + jedis.get("k5"));
 
-        //
+        //6, incr k2 : 自增1，要求值必须是数字类型的,否则报错
+        //jedis.incr("k1");  //k1不是数字, 报错
+        jedis.incr("k2");
+        System.out.printf("%s\n%s\n", jedis.get("k1"),jedis.get("k2"));
+
+        //7, incrby k2 5 : 指定自增的值
+        jedis.incrBy("k2", 5);
+        System.out.println("k2 incrBy 5 ==>" + jedis.get("k2"));
+
+        //8, decr k4 : 自减1
+        jedis.decr("k4");
+        System.out.println("k4 decr==>" + jedis.get("k4"));
+
+        //9, decrby k4 2 : 自减指定值
+        jedis.decrBy("k4", 2);
+        System.out.println("k4 decrBy==>" + jedis.get("k4"));
+
+        //10, setex k6 15 Lily : (set with expire) 添加时定好存活时间
+        jedis.setex("k6", 15, "Lily");
+        try {
+            System.out.println(Thread.currentThread().getName() + "休眠2秒。。。。。");
+            Thread.sleep(1000*2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("k6 ttl==>" + jedis.ttl("k6"));
+
+        //11,
 
         /*//3, del k1 : 删除键
         jedis.del("k1");   //Long del(String... keys) :形参为可变长度，可删除多个key
