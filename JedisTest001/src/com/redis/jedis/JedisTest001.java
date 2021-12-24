@@ -19,6 +19,7 @@ public class JedisTest001 {
         //添加String类型
         jedis.set("k1", "Tom");
         jedis.set("k2", "Jerry");
+        jedis.set("k3", "Mann");
         System.out.println("k1==>" + jedis.get("k1") +"\n"+ "k2==>" + jedis.get("k2"));
 
         //常用命令,
