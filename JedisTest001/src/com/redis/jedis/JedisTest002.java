@@ -68,7 +68,9 @@ public class JedisTest002 {
         }
         System.out.println("k6 ttl==>" + jedis.ttl("k6"));
 
-        //11,
+        //11, setnx k6 Jane : (set if not exists)如果不存在该键则添加，存在则不可覆盖,set命令是覆盖的
+        jedis.setnx("k6","Jane");
+        System.out.println("k6 setnx==>" + jedis.get("k6"));
 
         /*//3, del k1 : 删除键
         jedis.del("k1");   //Long del(String... keys) :形参为可变长度，可删除多个key
