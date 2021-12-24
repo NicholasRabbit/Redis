@@ -70,7 +70,13 @@ public class JedisTest001 {
         //11, ttl k2: 查看k2的寿命
         Long ttl = jedis.ttl("k2");
         System.out.println("k1 time to live ==> " + ttl);
-        //8, flushdb : 清空当前库
-        //jedis.flushDB();
+
+        //12, flushdb : 清空当前库
+        String flushDBInfo = jedis.flushDB();
+        System.out.printf("%s\n",flushDBInfo);    //输出：ok
+
+        //13, flushall : 清空所有库
+        String flushAllInfo = jedis.flushAll();
+        System.out.printf("%s\n", flushAllInfo);  //输出：ok
     }
 }
