@@ -92,10 +92,10 @@ public class JedisTest002 {
         System.out.println("getset present k2 ==> " + jedis.get("k2"));
 
 
-        /*//3, del k1 : 删除键
+        //16, del k1 : 删除键
         jedis.del("k1");   //Long del(String... keys) :形参为可变长度，可删除多个key
         jedis.del("k2", "k3");
-        System.out.println("del result==>" + jedis.get("k1"));*/
+        System.out.println("k1 exists ==>" + jedis.exists("k1"));
 
 
 
