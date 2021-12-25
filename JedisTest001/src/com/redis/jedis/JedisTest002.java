@@ -2,6 +2,8 @@ package com.redis.jedis;
 
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
+
 /**
  * 使用Jedis接口实现Redis的常用操作
  * */
@@ -15,8 +17,8 @@ public class JedisTest002 {
     private static void stringCommand() {
         //String类型常用命令
         //1, set k1 v1 /  get k1 :
-        Jedis  jedis = new Jedis("192.168.145.128", 6379);
-        jedis.auth("123456");
+        Jedis  jedis = new Jedis("8.142.134.196", 6379);
+        jedis.auth("$C&ayman1463852^");
         System.out.println(jedis.ping());
         jedis.set("k1", "Tom");
         jedis.set("k2", "100");
@@ -59,7 +61,7 @@ public class JedisTest002 {
         System.out.println("k4 decrBy==>" + jedis.get("k4"));
 
         //10, setex k6 15 Lily : (set with expire) 添加时定好存活时间
-        jedis.setex("k6", 15, "Lily");
+        jedis.setex("k6", 15, "Lily");  //设定存活时间15秒
         try {
             System.out.println(Thread.currentThread().getName() + "休眠2秒。。。。。");
             Thread.sleep(1000*2);
@@ -69,8 +71,26 @@ public class JedisTest002 {
         System.out.println("k6 ttl==>" + jedis.ttl("k6"));
 
         //11, setnx k6 Jane : (set if not exists)如果不存在该键则添加，存在则不可覆盖,set命令是覆盖的
-        jedis.setnx("k6","Jane");
-        System.out.println("k6 setnx==>" + jedis.get("k6"));
+        jedis.setnx("k5","Jane");
+        System.out.println("k5 setnx==>" + jedis.get("k5"));
+
+        //12, mset k1 v1 k2 v2 : 一次添加多个键值对
+        jedis.mset("k7","v7", "k8","v8");
+        System.out.println("k7==>" + jedis.get("k7") + "\n" + "k8==>" + jedis.get("k8"));
+
+        //13, mget k1 k2 k3 : 一次获取多个值
+        List<String> mgetKeys = jedis.mget("k1","k2","k3");
+        System.out.println("mget k1 k2 k3  ==>" + mgetKeys);
+
+        //14, msetnx k5 NFL k6  football : (mset if not exists)如果键不存在则进行添加，存在则不添加
+        jedis.msetnx("k5","NFL", "k6","football");
+        System.out.println("msetnx k5 k6==>" + jedis.mget("k5","k6") );  //结果，[xyzdefghijk, Lily]，k5,k6存在添加失败
+
+        //15, getset k2  HelloRedis : 先获取k2的值，然后在改为HelloRedis
+        String k2 = jedis.getSet("k2", "HelloRedis");
+        System.out.println("getset former k2 ==>" + k2);
+        System.out.println("getset present k2 ==> " + jedis.get("k2"));
+
 
         /*//3, del k1 : 删除键
         jedis.del("k1");   //Long del(String... keys) :形参为可变长度，可删除多个key
