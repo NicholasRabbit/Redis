@@ -29,7 +29,7 @@ public class JedisPoolUtil {
                 jedisPoolConfig.setMaxIdle(32);    //设置最多限制的线程数
                 jedisPoolConfig.setMaxWait(100*1000);  //设置最大的等待数量，如果超过此数量，再连接redis会报异常
                 jedisPoolConfig.setTestOnBorrow(true);  //设置连接前进行测试是否联通
-                //设置连接IP,端口，等待超时时间(单位毫秒)，密码
+                //设置线程池参数，连接IP,端口，等待超时时间(单位毫秒)，密码
                 jedisPool = new JedisPool(jedisPoolConfig,"8.142.134.196",6379,1000*60*5,"$C&ayman1463852^");
             }
 
