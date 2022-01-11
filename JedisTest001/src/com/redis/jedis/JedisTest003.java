@@ -64,13 +64,13 @@ public class JedisTest003 {
         //10, rpoplpush list02 list03 : 把list02栈底元素弹出，以左压栈的方式给list03
         String rpoplpushValue = jedis.rpoplpush("list02", "list03");
         System.out.println("rpoplpushValue==>" + rpoplpushValue
-                            +"\n list02==>" + jedis.lrange("list02",0,-1)
+                            +"\nlist02==>" + jedis.lrange("list02",0,-1)
                             +"\nlist03==>" + jedis.lrange("list03",0,-1));
 
         //11, linsert list02 before/after 11 h : 在list02中的元素“11”前或后插入“h”
         jedis.linsert("list02", BinaryClient.LIST_POSITION.BEFORE, "11", "h");  //形参BEFORE/AFTER是枚举
         System.out.println("list02 linsert==>" + jedis.lrange("list02",0,-1));
 
-
     }
+
 }
