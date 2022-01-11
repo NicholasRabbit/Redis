@@ -15,7 +15,7 @@ public class JedisTest004 {
         jedis.select(1);       //选择1号库，不影响0号库数据
 
         //
-
+        System.out.println(jedis.ping());
 
 
     }
