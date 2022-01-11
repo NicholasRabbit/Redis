@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * JedisPoolUtil工具类范例，在这里设置连接池，从连接池里获取连接，进行redis相关操作
  * 这里把RedicConfig和JedisUtil结合起来了，实际生产中是分开的
  *
- * 1,JedisPoolUtil个工具,使用双重验证的方式创建一个单例类JedisPool，在这里创建一个Redis连接池
+ * 1,JedisPoolUtil个工具,使用双重锁的方式创建一个单例类JedisPool，在这里创建一个Redis连接池
  *
  * */
 public class JedisPoolUtil {
@@ -21,15 +21,17 @@ public class JedisPoolUtil {
     }
 
     public static JedisPool getJedisPoolInstance(){
-        //使用双重验证
+        //使用双重锁机制
         if(null == jedisPool){
-            JedisPoolConfig  jedisPoolConfig = new JedisPoolConfig();
-            jedisPoolConfig.setMaxActive(1000);   //设置连接池最多活跃线程数，即最多连接数
-            jedisPoolConfig.setMaxIdle(32);    //设置最多限制的线程数
-            jedisPoolConfig.setMaxWait(100*1000);  //设置最大的等待数量，如果超过此数量，再连接redis会报异常
-            jedisPoolConfig.setTestOnBorrow(true);  //设置连接前进行测试是否联通
-            //设置连接IP,端口，等待超时时间(单位毫秒)，密码
-            jedisPool = new JedisPool(jedisPoolConfig,"8.142.134.196",6379,1000*60*5,"$C&ayman1463852^");
+            synchronized(JedisPoolUtil.class){
+                JedisPoolConfig  jedisPoolConfig = new JedisPoolConfig();
+                jedisPoolConfig.setMaxActive(1000);   //设置连接池最多活跃线程数，即最多连接数
+                jedisPoolConfig.setMaxIdle(32);    //设置最多限制的线程数
+                jedisPoolConfig.setMaxWait(100*1000);  //设置最大的等待数量，如果超过此数量，再连接redis会报异常
+                jedisPoolConfig.setTestOnBorrow(true);  //设置连接前进行测试是否联通
+                //设置连接IP,端口，等待超时时间(单位毫秒)，密码
+                jedisPool = new JedisPool(jedisPoolConfig,"8.142.134.196",6379,1000*60*5,"$C&ayman1463852^");
+            }
 
         }
         return jedisPool;

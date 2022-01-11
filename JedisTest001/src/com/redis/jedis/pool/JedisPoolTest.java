@@ -20,7 +20,7 @@ public class JedisPoolTest {
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
-            System.out.println(jedis.ping() + ":dbsize" + jedis.dbSize());
+            System.out.println(jedis.ping() + ":dbsize==>" + jedis.dbSize());
             jedis.select(1);
             jedis.set("k11", "v11");
             jedis.set("k22", "v22");
