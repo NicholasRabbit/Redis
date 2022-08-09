@@ -1,0 +1,27 @@
+ Redis内存分析工具--rdr安装与使用
+
+GitHub地址：https://github.com/xueqiu/rdr
+一、简介
+
+RDR 是解析 redis rdbfile 工具，与redis-rdb-tools相比，RDR 是由golang实现的，速度更快
+
+分析 Redis 内存中哪个 Key 值占用的内存最多
+
+分析出 Redis 内存中哪一类开头的 Key 占用最多，有利于内存优化
+
+Redis Key 值以 Dashboard 展示，这样更直观
+二、安装与使用
+
+linux下载链接：https://github.com/xueqiu/rdr/releases/download/v0.0.1/rdr-linux
+
+windows下载链接：https://github.com/xueqiu/rdr/releases/download/v0.0.1/rdr-windows.exe
+
+将下载好的rdr-windows.exe文件与你需要解析的Redis rdbfile放在同一个目录 (运行前需要提前准备好go环境)
+
+然后打开cmd窗口（win+R,输入cmd）进入到rdr-windows.exe目录下，
+
+输入：rdr-windows.exe show -p 8080(端口自定义，默认为8080) dump.rdb dump11.rdb dump22.rdb（需要解析的文件，多个文件空格依次输入就行）
+
+或者：rdr-windows.exe show *.rdb
+
+最后浏览器直接访问：localhost:8080
