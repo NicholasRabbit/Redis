@@ -1,0 +1,16 @@
+ Redis内存分析工具--rdr安装与使用
+
+GitHub地址：https://github.com/xueqiu/rdr
+
+linux下载链接：https://github.com/xueqiu/rdr/releases/download/v0.0.1/rdr-linux
+
+windows下载链接：https://github.com/xueqiu/rdr/releases/download/v0.0.1/rdr-windows.exe
+
+使用步骤：
+
+1,将下载好的rdr-linux文件与你需要解析的Redis rdbfile放在同一个目录;
+
+2,修改rdr-linux为可执行文件: chmod u+x rdr-linux
+
+3,执行./rdr-linux show -p 8099 dump.rdb dump2.rdb : 8099为自定义端口，dump.rdb为持久化文件名字，如果有多个用空格隔开
+
