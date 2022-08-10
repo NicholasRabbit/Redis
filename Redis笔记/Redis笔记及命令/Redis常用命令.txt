@@ -1,0 +1,144 @@
+#在redis.cli界面使用的命令，不用加分号
+
+查看版本号：
+info : (reddis-cli界面执行)
+redis-server --version / redis-server -v /redis-cli --version / redis-cli -v  : Linux终端执行命令查看版本号
+查看内存占用情况:
+info memory : (reddis-cli界面执行)
+
+type key01 : 查看数据类型string/set...等
+
+set k1 v1 : 设置键值对
+get k1 : 获取k1对应的值
+del k1 k2 k3 list01 list02: 命令del可删除单个或多个键，
+keys * : 查看所有的key,当前库中
+dbsize : 查看库内键值对个数
+keys ke?/ke* : 查询以ke开头的键，问号“？”匹配单个字符,星号“*”匹配多个字符
+flushdb : 清空当前库存
+flushall : 清空所有
+
+2，redis一共16个库，以下标为0开始
+select 2 : 选择第3号库
+move k1 2 ： 把k1键值对移动到database 2 中
+exists key02 : 是否存在key02, 结果是integer(1)表示有，integer(0)表示没有
+expire k2 10: 为k2设置保存时间为10秒，单位是秒
+ttl k3 : (time to live)查看k3还有时间过期，结果“-1”表示永不过期，“-2”表示已过期，（过期就删了）
+type k3 : 查看k3是什么类型
+
+3，redis一般查询增加等操作成功会显示：integer(1),不成功则是: interger(0)
+   显示nil则表示空
+
+4，操作string类型数据，String类型是最简单的一种数据类型
+set k1 abc : 设置键值对
+get k1 : 获取键值对
+del k1 : 删除k1
+append k1 12345: 拼接字符串,结果是：abc12345
+strlen k1 : (StringLength)获取值的长度,本例结果是：integer(8)
+getrange k1 0 3: 类似与String的方法 subString(..),获取k1的值的0到3的下标的值，结果是abc1
+setrange k1 0 xyz : 把k1的值从下表0开始替换为 xyz,即结果是：xyz12345
+==递增递减，只适用于数字的字符串==
+例：set k2 10
+incr k2 : k2递增1，结果为integer(11),即“11”
+decr k2 : ke递减1，
+incrby k2 2 : 递增2
+decrby k2 2 : 递减2
+==set，get命令扩展==
+setex k3 10 Tom : (set with expire)设置键值对时即定义好过期期限，单位时秒，本例：设置Tom的存在期限为10秒
+setnx k3 Jerry : (set if not exists)如果不存在k3就设置，存在就不设置，防止覆盖
+mset k1 v1 k2 v2 k3 v3 : 多项键值对添加，注意顺序时一个key一个value
+mget k1 k2 k3 : 获取多个键的值
+msetnx k1 v1 k2 v2 : (multiple set if no exists)如果不存在则进行多项设置，但是一旦有一个存在则全部设置不了
+getset k6 Jerry : 例；k6 Tom，先获取值，再重新设置值，执行结果就是 k6 Jerry
+
+5,List集合常用命令， List集合内元素有序可重复，单键多值。如果值全部移除，那对应的键也会消失。
+del list01 list02 : 删除多个键值对
+lpush list01 1 2 3 4 5 6 : (left push 左压栈)添加一个List类型的键值对，键为“list01”,值是多个
+			   注意lpush是类似于压栈命令，存储值遵循先进后出，后进先出规则
+			   即，先放的“1”则它在最底部，结果：顶--> “6 5 4 3 2 1” 底
+rpush list02 1 2 3 4 5 6 : (right push 右压栈)跟上面左压栈相反，最先放的"1"再最上面，结果：顶-->“1 2 3 4 5 6”底
+lpop list01 : (left pop) 把list01左边，即栈顶的元素"6"弹出，值里的集合就没有这个元素了,结果：(list01) “5 4 3 2 1”
+rpop list01 : (right pop) 与上面相反，把栈底元素"1"弹出，结果 ：(list01) "5 4 3 2"
+lrange list01 0 -1 : (list range)显示list01的所有值，“0 -1”的范围表示所有值
+lrange list01 0 2 : 显示下表0-2的所有值
+llen : (list length) 值集合的长度，注意两个ll
+ltrim list01 0 2: (list trim)把集合list01("5 4 3 2 1")的下标位置0~2的元素剪下来再给list01,即list01就剩下"5 4 3"
+lrem list03 2 3 : (list remove)从集合list03("1 1 2 2 3 3 3")中移除2个3，结果：“1 1 2 2 3”
+lset list03 1 a : (list set)把集合list03内下标为1的元素替换为“a”,结果 ：“1 a 2 2 3”
+rpoplpush list01 list02 : 把集合list01("a b c d")的右边即栈底的元素弹出给list02("1 2 3 4")，
+		          结果：list01("a b c"),list02("d 1 2 3 4")
+lpoprpush : 没这个命令
+linsert list02 before/after 2 x : (list insert) 在list02的元素"2"前或后插入"x"。List集合首位插入元素效率高，中间插入元素效率较低。
+
+6，set集合操作常用命令，也是一键多值，set集合无序且不可重复
+sadd set01 1 2 3 : (set add)添加set类型键值对，如果值里添加重复元素则只会添加一个，例:sadd set01 1 1 2 2 3 3,结果是 1 2 3
+smemebers set01: (set memebers)显示键set01对应的set集合内的所有值
+sismember set01 4 : (ser is member)判断set01的值内是否含有“4”
+scard set01 : 获取set01对应集合内元素的个数
+srem set01 2 : 把set中的值“2”移除
+srandmember set01 : 随机选出出set集合中任意值，不是删除该值
+spop set01 : 使set01中元素随机出栈，即删除该元素了
+smove set01 set02 a : 把set01里的值给set02
+sdiff set01 set02 : (set different)找出set01和set02的元素的差集，例 set01("1 2 3 4 5") set02(a b c 4 5)，则差集是 1 2 3，即在set02中没有的set01元素
+sinter set01 set02 : (set interaction)找出set01和set02的元素的交集，找出它们共同的元素，即“4 5”
+sunion set01 set 02 : 求出并集,结果是：“1 2 3 4 5 a b c”
+
+7，Map集合常用操作命令，这种数据存储也是kv方式，但v是一个键值对
+hset key01  id 1001 : 添加Map数据，键是key01 ,值是一个Map数据 {id = 1001}, 注意此命令只能添加一个redis的value(一个Map键值对)
+hset key01  name  Tom : 可继续向key01所对应的值map中添加数据，还是key01这个键
+hget key01 id : 获取key01(redis的key)的对应的map中key是id的值，只写hget key01不行，报错
+hmset key02 id 1002 name Kate : 批量添加key02对应的map中的键值对，注意后面的map键值对写法，一个key一个value
+hmget key02 id name : 通过redis的key和value(是个map)中的多个key(id,name)批量获取值
+hgetall key01 : 获取key01对应的map类型的value内所有的值，以 k1,v1 : k2,v2:..的形式显示
+hdel key01 id name: 把key01对应的map值中的id和name两个键值对删掉，此命令可删单个或多个键值对
+hlen key02 : 显示key02对应的即Map(value)内的键值对个数
+hexists key02 name : 查看key02对应的map中是否含有键name
+hkeys key01 : 查看此map类型的value中的所有键
+hvals key01 : 查看此map类型的vlaue中的所有值
+hincrby key02 age 2 : 把map中的年龄按整数增加
+hincrby key02 score 0.5 : 把map中的分数按浮点数增加
+hsetnx key02 id 1002 : (hash set if not exists)如果不存在(redis的)key02则添加，否则不添加
+*redis的Map操作和java中一样，如果再执行hset key01 id 2001则会把原来的值覆盖，类似map.put(..)方法
+
+
+8，ZSet常用命令，ZSet是有序集合，添加时用score表示其顺序，获取时也有顺序
+zadd set01 10 Tom 20 Jerry : (zadd set01 score value...)添加zset集合时必须带上score，如本例的数字10，20
+zrange set01 0 -1 : 显示zset中所有元素，默认是升序
+zrange set01 0 3 : 显示zset中0到3下表的元素，也是升序
+zrange set01 0 -1 withscores : 带分数显示元素
+zrevrange zset01 0 -1 : 逆序获取zset集合中的元素，原来的最后一个下表变为0了
+例 ：zadd zset02 1 Tom 2 Jerry 3 Kate 4 Lily 5 Cole;
+zrangebyscore zset02 2 4 ：显示score值2到4的元素，包含前后边界，即结果是：Jerry,Kate,Lily
+zrangebyscore zset02 0 7 : 没有的score值也可写，会显示它们范围内的score对应的元素
+zrangebyscore zset02 1 3 withscores ：带score显示结果
+zrangebyscore zset02 1 (4 : 加小括号表示不包含此score边界,注意写法括号开口向右，例 (1 (3 /(2  4
+zrangebyscore zset03 10 50 limit 0 2 : 在10到50分数的元素中以下表0开始取两个元素显示
+zrevrangebyscore zset03 50 10 : 逆分数score显示该范围内元素，注意这里50写前面，注意和上面的zrevrange 0 -1比较，不一样
+zrem zset01 Tom : 把zset中的元素"Tom"移除
+zcard zset02 : 显示zset02集合元素的个数
+zcount zset01 10 50 : 显示score从10到50范围内元素个数，包含前后边界，加小括号表示不包含，例 (10 50
+zrank zset01 Jerry : 获取"Jerry"在集合中的下标值
+zrevrank zset01 Jerry : 获取"Jerry"在集合中的逆序下标值
+zscore zset02 Tom : 获取"Tom"对应的score
+
+
+8,Redis的其它命令
+redis-cli也可以不在bin目录下启动
+/usr/local/bin/redis-cli : 也可启动redis-cli，显示界面
+./redis-cli -p 6379 : 启动时指定端口号
+bin目录下手动开启redis服务
+./redis-server  : 正常开启，默认会加载/etc/redis/6379.conf中的配置
+./redis-server  conf/redis.conf : 手动带配置文件启动，这时会使用当前目录conf/redis.conf中的设置。
+			          conf目录下的配置文件可以有多个如redis_rdb.conf, redis_aof.conf等，
+				  可根据不同需要选用
+
+
+  #redis-cli界面执行
+config get requirepass : 获取当前的密码
+config set requirepass “123” : 设置redis密码（临时密码，下次重启就无效了，永久设置在redis.conf里设置）
+config get dir : 获取当前redis启动的目录，redis-server可在bin目录以外的目录启动
+
+其它总结
+(1)如果redis中已经有个key是String类型，再添加时用lpush list01 a b c 覆盖的话会出错，因为类型不同
+
+
+9, Redis事务相关命令

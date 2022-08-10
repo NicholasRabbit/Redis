@@ -1,0 +1,19 @@
+1, redis-cli界面执行
+info : 查看redis信息
+info replication :  查看当前服务器是从机还是主机，以及它的从机个数
+slave of 127.0.0.1 6379 : 设置当前该redis服务为127.0.0.1 6379的从机（如果在同一台机器上，注意当前redis的端口需与6379不同）
+
+2, 主从复制常用命令
+
+
+
+
+3, 消息订阅发布常用命令
+常用命令：
+在redis-cli界面执行：
+subscribe  ch01  ch02  ： 订阅频道 ch01  ch02，发布的名字必须和ch01, ch02一致才可接收
+unsubscribe  ch01  ch02  :  退订这两个频道
+publish  ch01  "Hello Redis!"  :  在频道ch01发布消息， 注意后面的内容需加引号，否则报错；
+psubcribe  news* :  订阅频道名含有 news的所有频道， 通配符的使用，可订阅多个psubcribe  news*   nfl*
+publish  news-cctv5    “Liu Xiang wins”:   发不此消息可被上条psubscribe   news*接收
+punsubscribe  news*  :  退订该频道
