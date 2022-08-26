@@ -89,7 +89,7 @@ hget key01 id : »ñÈ¡key01(redisµÄkey)µÄ¶ÔÓ¦µÄmapÖĞkeyÊÇidµÄÖµ£¬Ö»Ğ´hget key01²»Ğ
 hmset key02 id 1002 name Kate : ÅúÁ¿Ìí¼Ókey02¶ÔÓ¦µÄmapÖĞµÄ¼üÖµ¶Ô£¬×¢ÒâºóÃæµÄmap¼üÖµ¶ÔĞ´·¨£¬Ò»¸ökeyÒ»¸övalue
 hmget key02 id name : Í¨¹ıredisµÄkeyºÍvalue(ÊÇ¸ömap)ÖĞµÄ¶à¸ökey(id,name)ÅúÁ¿»ñÈ¡Öµ
 hgetall key01 : »ñÈ¡key01¶ÔÓ¦µÄmapÀàĞÍµÄvalueÄÚËùÓĞµÄÖµ£¬ÒÔ k1,v1 : k2,v2:..µÄĞÎÊ½ÏÔÊ¾
-hdel key01 id name: °Ñkey01¶ÔÓ¦µÄmapÖµÖĞµÄidºÍnameÁ½¸ö¼üÖµ¶ÔÉ¾µô£¬´ËÃüÁî¿ÉÉ¾µ¥¸ö»ò¶à¸ö¼üÖµ¶Ô
+hdel key01 id name: °Ñkey01¶ÔÓ¦µÄmapÖµÖĞµÄidºÍnameÁ½¸ö¼üÖµ¶ÔÉ¾µô£¬´ËÃüÁî¿ÉÉ¾µ¥¸ö»ò¶à¸ö¼üÖµ¶Ô£¬×¢Òâid,nameÊÇmapÖĞµÄkey
 hlen key02 : ÏÔÊ¾key02¶ÔÓ¦µÄ¼´Map(value)ÄÚµÄ¼üÖµ¶Ô¸öÊı
 hexists key02 name : ²é¿´key02¶ÔÓ¦µÄmapÖĞÊÇ·ñº¬ÓĞ¼üname
 hkeys key01 : ²é¿´´ËmapÀàĞÍµÄvalueÖĞµÄËùÓĞ¼ü
