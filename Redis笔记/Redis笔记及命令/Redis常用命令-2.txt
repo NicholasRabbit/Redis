@@ -17,3 +17,7 @@ publish  ch01  "Hello Redis!"  :  ÔÚÆµµÀch01·¢²¼ÏûÏ¢£¬ ×¢ÒâºóÃæµÄÄÚÈİĞè¼ÓÒıºÅ£¬·
 psubcribe  news* :  ¶©ÔÄÆµµÀÃûº¬ÓĞ newsµÄËùÓĞÆµµÀ£¬ Í¨Åä·ûµÄÊ¹ÓÃ£¬¿É¶©ÔÄ¶à¸öpsubcribe  news*   nfl*
 publish  news-cctv5    ¡°Liu Xiang wins¡±:   ·¢²»´ËÏûÏ¢¿É±»ÉÏÌõpsubscribe   news*½ÓÊÕ
 punsubscribe  news*  :  ÍË¶©¸ÃÆµµÀ
+
+
+4£¬Redis²é¿´¸÷¸ö¼üÖµ¶ÔËùÕ¼ÈİÁ¿ÃüÁî
+redis-cli --bigkeys
