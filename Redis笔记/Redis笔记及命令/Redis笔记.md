@@ -132,7 +132,7 @@ dump.db文件的保存路径由/bin/conf/redis.conf或/etc/redis/6379.conf中的
 
 - （3.1）dump.rdb的备份策略之一，保存快照sanpshooting，即本分dump.rdb的时间设置策略，可自定义该设置。
 
-  RDB(dump.rdb)就是整个内存压缩过的snapshot快照
+  RDB(dump.rdb)就是整个内存压缩过的snapshoot快照
 
   如果900秒至少有一个键key内容变更，则备份dump.rdb到硬盘；
 

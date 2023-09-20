@@ -21,3 +21,7 @@ punsubscribe  news*  :  退订该频道
 
 4，Redis查看各个键值对所占容量命令
 redis-cli --bigkeys
+
+
+5, 测试性能
+ ./redis-benchmark -n 100000 -q : 测试十万级链接的时间
